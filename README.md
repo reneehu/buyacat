@@ -1,1 +1,2 @@
 # buyacat
+npm run start

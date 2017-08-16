@@ -1,15 +1,6 @@
-<!doctype html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>Hello World</title>
-</head>
-<script src="pixi.min.js"></script>
-<body>
-  <script type="text/javascript">
     var type = "WebGL"
     if(!PIXI.utils.isWebGLSupported()){
-      type = "canvas"
+    	type = "canvas"
     }
 
     PIXI.utils.sayHello(type);
@@ -27,29 +18,6 @@
     //Tell the `renderer` to `render` the `stage`
     renderer.render(stage);
     renderer = PIXI.autoDetectRenderer(
-      256, 256,
-      {antialias: false, transparent: false, resolution: 1}
-      );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    </script>
-  </body>
-  </html>
+    	256, 256,
+    	{antialias: false, transparent: false, resolution: 1}
+    	);
