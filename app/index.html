@@ -1,10 +1,66 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-	<meta charset="UTF-8">
-	<title>Hello Pixi</title>
+  <meta charset="UTF-8">
+  <title>Parallax Scrolling Demo</title>
 </head>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.5.1/pixi.min.js"></script>
-<body>
-	<div id="app"></div>
+<body onload="init()">
+  <div align="center">
+    <canvas id="game-canvas" width="512" height="384"></canvas>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.0.0/pixi.min.js"></script>
+  <script>
+    function init() {
+      stage = new PIXI.Container();
+      renderer = PIXI.autoDetectRenderer(
+        512,
+        384,
+        {view: document.getElementById("game-canvas")}
+        );
+
+      
+      /* 
+      look at bg-far.png and bg-mid.png then you should notice that both images are designed to repeat horizontally. Examine the left and right edge of each image. You should notice that the far-right edge perfectly leads back onto the far-left edge. In other words, both images are designed to wrap around.
+      */
+
+      var farTexture = PIXI.Texture.fromImage('./parallax-scroller/resources/bg-far.png');
+      far = new PIXI.extras.TilingSprite(
+        farTexture,
+        512,
+        256
+        );
+      far.position.x = 0;
+      far.position.y = 0;
+      far.tilePosition.x = 0;
+      far.tilePosition.y = 0;
+      stage.addChild(far);
+
+      var midTexture = PIXI.Texture.fromImage('./parallax-scroller/resources/bg-mid.png');
+      mid = new PIXI.extras.TilingSprite(midTexture, 512, 256);
+      mid.position.x = 0;
+      mid.position.y = 128;
+      mid.tilePosition.x = 0;
+      mid.tilePosition.y = 0;
+      stage.addChild(mid);
+
+      /* 
+      with renderer.render(stage)
+      we are making a call to the renderer’s render() method immediately 
+      after adding the background to the display list. Well that’s actually the problem
+      We’re actually attempting to render our sprite before its texture has actually had
+      time to fully load.
+      */
+
+      requestAnimationFrame(update);
+    }
+
+    function update() {
+      far.tilePosition.x -= 0.128
+      mid.tilePosition.x -= 0.64;
+
+      renderer.render(stage);
+
+      requestAnimationFrame(update);
+    }
+  </script>
 </body>
+</html>
